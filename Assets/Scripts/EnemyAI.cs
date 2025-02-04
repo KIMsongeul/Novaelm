@@ -8,9 +8,9 @@ using Random = UnityEngine.Random;
 public class EnemyAI : MonoBehaviour
 {
     public Transform player;
-    private float detectionRange = 8f;
+    private float detectionRange = 10f;
     private float wanderRadius = 5f;
-    private float wanderTime = 4f;
+    private float wanderTime = 12f;
 
     private NavMeshAgent agent;
     private float timer;
@@ -28,13 +28,12 @@ public class EnemyAI : MonoBehaviour
         if (distanceToPlayer <= detectionRange)
         {
             ChasePlayer();
-            Debug.Log("ChasePlayer");
         }
         else
         {
             Wander();
-            Debug.Log("Wander");
         }
+        timer += Time.deltaTime;
     }
 
     void ChasePlayer()
@@ -44,24 +43,24 @@ public class EnemyAI : MonoBehaviour
 
     void Wander()
     {
-        timer += Time.deltaTime;
-
         if (timer >= wanderTime)
         {
-            Vector3 newPos = RandomNavSphere(wanderRadius);
+            Vector3 newPos = RandomNavSphere(transform.position,wanderRadius,3);
             agent.SetDestination(newPos);
             timer = 0;
-            
             Debug.Log("New wander position set :" + newPos);
         }
     }
 
-    private Vector3 RandomNavSphere(float dist)
-    {
-        Vector3 randDirection = Random.insideUnitSphere * dist;
-        randDirection = transform.position;
+    public static Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask) {
+        Vector3 randomDirection = Random.insideUnitSphere * dist;
+
+        randomDirection += origin;
+
         NavMeshHit navHit;
-        NavMesh.SamplePosition(randDirection, out navHit, dist, NavMesh.AllAreas);
+
+        NavMesh.SamplePosition (randomDirection, out navHit, dist, layermask);
+
         return navHit.position;
     }
     
