@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
-  jumpPower: 35
+  jumpPower: 55
   movement: {x: 0, y: 0, z: 0}
   groundLayer:
     serializedVersion: 2

@@ -8,12 +8,13 @@ public class PlayerMove : MonoBehaviour
 {
     [Header("Movement")]
     public float speed = 3f;
-    public float jumpPower = 35f;
+    public float jumpPower = 55f;
     public Vector3 movement = new Vector3();
     
     [Header("Laycast")]
     public LayerMask groundLayer;
-    
+
+    private float gravity = 9f;
     private float groundCheckDistance = 0.1f;
     private bool isGround;
 
@@ -29,11 +30,16 @@ public class PlayerMove : MonoBehaviour
     private void Update()
     {
         isGround = Physics.Raycast(transform.position, Vector3.down, groundCheckDistance, groundLayer);
-        //Debug.Log("isGround : " + isGround);
         if (Input.GetKeyDown(KeyCode.Space) && isGround)
         {
             Jump();
             anim.SetTrigger("Jump");
+        }
+
+        if (rigid.velocity.y < 0)
+        {
+            rigid.AddForce(Vector3.down * gravity,ForceMode.Force);
+            Debug.Log("falling fast");
         }
     }
 
