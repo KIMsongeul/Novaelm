@@ -9,6 +9,7 @@ public class EnemyAI : MonoBehaviour
 {
     public Transform player;
     private float detectionRange = 10f;
+    private float stopRange = 2f;
     private float wanderRadius = 5f;
     private float wanderTime = 12f;
 
@@ -25,7 +26,12 @@ public class EnemyAI : MonoBehaviour
     private void Update()
     {
         float distanceToPlayer = Vector3.Distance(player.position, transform.position);
-        if (distanceToPlayer <= detectionRange)
+        if (distanceToPlayer <= stopRange)
+        {
+            agent.ResetPath();
+            Debug.Log("Attack player");
+        }
+        else if (distanceToPlayer <= detectionRange)
         {
             ChasePlayer();
         }

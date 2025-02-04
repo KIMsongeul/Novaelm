@@ -14,7 +14,7 @@ public class PlayerMove : MonoBehaviour
     [Header("Laycast")]
     public LayerMask groundLayer;
 
-    private float gravity = 9f;
+    private float gravity = 13f;
     private float groundCheckDistance = 0.1f;
     private bool isGround;
 
